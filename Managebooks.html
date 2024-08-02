@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Books</title>
+    <script>
+        function fetchBookDetails() {
+            const Bno = document.getElementById('Bno').value.trim(); // Trim any extra spaces
+
+            if (Bno === "") {
+                alert("Please enter a Book Number (Bno).");
+                return; // Exit if Bno is empty
+            }
+
+            // Create a new XMLHttpRequest object
+            const xhr = new XMLHttpRequest();
+
+            // Configure it: GET-request for the URL /get_book_details.php?Bno=<Bno>
+            xhr.open('GET', 'get_book_details.php?Bno=' + encodeURIComponent(Bno), true);
+
+            // Set up the callback function
+            xhr.onload = function () {
+                console.log("XHR Status:", xhr.status);
+                if (xhr.status === 200) {
+                    console.log("Response received:", xhr.responseText);
+
+                    // Parse JSON response
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        console.log("Parsed response:", response);
+
+                        // Check if book exists
+                        if (response.success) {
+                            // Populate form fields with the book details
+                            document.getElementById('Bname').value = response.data.Bname;
+                            document.getElementById('Author').value = response.data.Author;
+                            document.getElementById('Category').value = response.data.Category;
+                            document.getElementById('Status').value = response.data.Status;
+                        } else {
+                            // Clear the fields if no book is found
+                            document.getElementById('Bname').value = "";
+                            document.getElementById('Author').value = "";
+                            document.getElementById('Category').value = "";
+                            document.getElementById('Status').value = "IN";
+                            alert('Book not found: ' + response.message);
+                        }
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                        alert('Error processing server response.');
+                    }
+                } else {
+                    alert('Error fetching book details.');
+                }
+            };
+
+            // Log the request being sent
+            console.log("Sending request for Bno:", Bno);
+            
+            // Send the request
+            xhr.send();
+        }
+
+        // Function to handle the search button click event
+        function handleSearchClick(event) {
+            event.preventDefault(); // Prevent form submission
+            fetchBookDetails(); // Call the function to fetch book details
+        }
+    </script>
+</head>
+<body>
+    <h2>Manage Books</h2>
+    <form action="manage_books.php" method="POST">
+        <label for="Bno">Book Number (Bno):</label>
+        <input type="text" id="Bno" name="Bno" required>
+        <button onclick="handleSearchClick(event)">Search</button>
+        <br><br>
+        
+        <label for="Bname">Book Name:</label>
+        <input type="text" id="Bname" name="Bname">
+        <br><br>
+
+        <label for="Author">Author:</label>
+        <input type="text" id="Author" name="Author">
+        <br><br>
+
+        <label for="Category">Category:</label>
+        <input type="text" id="Category" name="Category">
+        <br><br>
+
+        <label for="Status">Status:</label>
+        <select id="Status" name="Status">
+            <option value="IN">IN</option>
+            <option value="OUT">OUT</option>
+        </select>
+        <br><br>
+
+        <label for="Action">Action:</label>
+        <select id="Action" name="Action">
+            <option value="add">Add Book</option>
+            <option value="update">Update Book</option>
+            <option value="delete">Delete Book</option>
+        </select>
+        <br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Books</title>
+    <script>
+        function fetchBookDetails() {
+            const Bno = document.getElementById('Bno').value.trim(); // Trim any extra spaces
+
+            if (Bno === "") {
+                alert("Please enter a Book Number (Bno).");
+                return; // Exit if Bno is empty
+            }
+
+            // Create a new XMLHttpRequest object
+            const xhr = new XMLHttpRequest();
+
+            // Configure it: GET-request for the URL /get_book_details.php?Bno=<Bno>
+            xhr.open('GET', 'get_book_details.php?Bno=' + encodeURIComponent(Bno), true);
+
+            // Set up the callback function
+            xhr.onload = function () {
+                console.log("XHR Status:", xhr.status);
+                if (xhr.status === 200) {
+                    console.log("Response received:", xhr.responseText);
+
+                    // Parse JSON response
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        console.log("Parsed response:", response);
+
+                        // Check if book exists
+                        if (response.success) {
+                            // Populate form fields with the book details
+                            document.getElementById('Bname').value = response.data.Bname;
+                            document.getElementById('Author').value = response.data.Author;
+                            document.getElementById('Category').value = response.data.Category;
+                            document.getElementById('Status').value = response.data.Status;
+                        } else {
+                            // Clear the fields if no book is found
+                            document.getElementById('Bname').value = "";
+                            document.getElementById('Author').value = "";
+                            document.getElementById('Category').value = "";
+                            document.getElementById('Status').value = "IN";
+                            alert('Book not found: ' + response.message);
+                        }
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                        alert('Error processing server response.');
+                    }
+                } else {
+                    alert('Error fetching book details.');
+                }
+            };
+
+            // Log the request being sent
+            console.log("Sending request for Bno:", Bno);
+            
+            // Send the request
+            xhr.send();
+        }
+
+        // Function to handle the search button click event
+        function handleSearchClick(event) {
+            event.preventDefault(); // Prevent form submission
+            fetchBookDetails(); // Call the function to fetch book details
+        }
+    </script>
+</head>
+<body>
+    <h2>Manage Books</h2>
+    <form action="manage_books.php" method="POST">
+        <label for="Bno">Book Number (Bno):</label>
+        <input type="text" id="Bno" name="Bno" required>
+        <button onclick="handleSearchClick(event)">Search</button>
+        <br><br>
+        
+        <label for="Bname">Book Name:</label>
+        <input type="text" id="Bname" name="Bname">
+        <br><br>
+
+        <label for="Author">Author:</label>
+        <input type="text" id="Author" name="Author">
+        <br><br>
+
+        <label for="Category">Category:</label>
+        <input type="text" id="Category" name="Category">
+        <br><br>
+
+        <label for="Status">Status:</label>
+        <select id="Status" name="Status">
+            <option value="IN">IN</option>
+            <option value="OUT">OUT</option>
+        </select>
+        <br><br>
+
+        <label for="Action">Action:</label>
+        <select id="Action" name="Action">
+            <option value="add">Add Book</option>
+            <option value="update">Update Book</option>
+            <option value="delete">Delete Book</option>
+        </select>
+        <br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

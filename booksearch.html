@@ -1,0 +1,44 @@
+﻿<?php
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Establish database connection (replace with your credentials)
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "library";
+
+// Create connection
+ $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $dbname = "library";
+
+                // Create connection
+                $conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// SQL query to fetch distinct categories from your books table
+$sql = "SELECT DISTINCT Category FROM books";
+$result = $conn->query($sql);
+
+// Check if query returned results
+if ($result === false) {
+    die("Error executing query: " . $conn->error);
+} else if ($result->num_rows > 0) {
+    // Output options for each category
+    while ($row = $result->fetch_assoc()) {
+        $categoryName = htmlspecialchars($row['Category']);
+        echo "<option value='" . $categoryName . "'>$categoryName</option>";
+    }
+} else {
+    echo "<option value=''>No categories available</option>";
+}
+
+// Close connection
+$conn->close();
+?>
